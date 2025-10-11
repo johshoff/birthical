@@ -99,6 +99,7 @@ dependencies = [
 [[package]]
 name = "ical-syntax"
 version = "0.1.0"
+source = "git+https://github.com/maghoff/ical-tools.git#0d2e18d7ff01929e6361846fc4118a6b71cd1657"
 dependencies = [
  "chrono",
 ]
