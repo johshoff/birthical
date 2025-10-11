@@ -43,22 +43,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     ev.dtstart(date.with_year(year).unwrap())?;
                     ev.end()?;
                 }
-            } else {
-                if let Ok(month) = date_str[5..7].parse::<u32>()
-                    && let Ok(day) = date_str[8..10].parse::<u32>()
-                    && let Some(cal_date) = chrono::NaiveDate::from_ymd_opt(2025, month, day)
-                {
-                    let mut ev = ico.component(EventC)?;
-                    ev.uid(format!("{}-{}", name, date_str))?;
-                    ev.summary(format!("{} bursdag", name))?;
-                    ev.dtstamp(generated)?;
-                    ev.time_transparency(
-                        ical_syntax::write::value_types::TimeTransparency::Transparent,
-                    )?;
-                    // TODO add RRULE:FREQ=YEARLY
-                    ev.dtstart(cal_date)?;
-                    ev.end()?;
-                }
+            } else if let Ok(month) = date_str[5..7].parse::<u32>()
+                && let Ok(day) = date_str[8..10].parse::<u32>()
+                && let Some(cal_date) = chrono::NaiveDate::from_ymd_opt(2025, month, day)
+            {
+                let mut ev = ico.component(EventC)?;
+                ev.uid(format!("{}-{}", name, date_str))?;
+                ev.summary(format!("{} bursdag", name))?;
+                ev.dtstamp(generated)?;
+                ev.time_transparency(
+                    ical_syntax::write::value_types::TimeTransparency::Transparent,
+                )?;
+                // TODO add RRULE:FREQ=YEARLY
+                ev.dtstart(cal_date)?;
+                ev.end()?;
             }
         }
     }
