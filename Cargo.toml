@@ -1,0 +1,8 @@
+[package]
+name = "birthical"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = "0.4.42"
+ical-syntax = { path = "../ical-tools/ical-syntax" }
