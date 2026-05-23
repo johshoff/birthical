@@ -3,12 +3,23 @@ use std::{fs::read_to_string, io::BufWriter};
 use chrono::Datelike;
 use ical_syntax::{
     self,
-    structure::icalstream::components::{EventC, ICalObject, ICalStream},
+    structure::{
+        Property, PropertyOf,
+        icalstream::components::{EventC, ICalObject, ICalStream},
+        value_types::Text,
+    },
     write::{
         Writer,
         icalstream::typed_writers::{EventWriterExt, ICalObjectWriterExt},
     },
 };
+
+struct RRule {}
+impl PropertyOf<EventC> for RRule {}
+impl Property for RRule {
+    const NAME: &'static str = "RRULE";
+    type CompositeValueType = Text;
+}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let stdout = std::io::stdout();
@@ -54,8 +65,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 ev.time_transparency(
                     ical_syntax::write::value_types::TimeTransparency::Transparent,
                 )?;
-                // TODO add RRULE:FREQ=YEARLY
                 ev.dtstart(cal_date)?;
+                ev.simple_property(RRule {}, "FREQ=YEARLY")?;
                 ev.end()?;
             }
         }
