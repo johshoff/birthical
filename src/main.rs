@@ -43,7 +43,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             let name = name.trim();
             if let Ok(date) = chrono::NaiveDate::parse_from_str(date_str, "%Y-%m-%d") {
                 let start = 2025;
-                let end = 2026;
+                let end = 2028;
                 for year in start..=end {
                     let mut ev = ico.component(EventC)?;
                     let age = year - date.year();

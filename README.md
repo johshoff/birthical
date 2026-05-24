@@ -12,4 +12,4 @@ Generate an ical/ics file with birthdays. Reads from the file `birthdays.txt` wh
 
 ## TODO
 
-- generate more birthday events, past and present
+- generate more birthday events in the past
