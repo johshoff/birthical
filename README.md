@@ -13,4 +13,3 @@ Generate an ical/ics file with birthdays. Reads from the file `birthdays.txt` wh
 ## TODO
 
 - generate more birthday events, past and present
-- add recurring events when outside of range of previous point

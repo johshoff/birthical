@@ -42,16 +42,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         {
             let name = name.trim();
             if let Ok(date) = chrono::NaiveDate::parse_from_str(date_str, "%Y-%m-%d") {
-                for year in 2025..2027 {
+                let start = 2025;
+                let end = 2026;
+                for year in start..=end {
                     let mut ev = ico.component(EventC)?;
                     let age = year - date.year();
+                    let is_last = year == end;
                     ev.uid(format!("{}-{}-{}", year, name, date))?;
-                    ev.summary(format!("{} {} år", name, age))?;
+                    ev.summary(format!(
+                        "{} {}{} år",
+                        name,
+                        age,
+                        if is_last { "+" } else { "" }
+                    ))?;
                     ev.dtstamp(generated)?;
                     ev.time_transparency(
                         ical_syntax::write::value_types::TimeTransparency::Transparent,
                     )?;
                     ev.dtstart(date.with_year(year).unwrap())?;
+                    if is_last {
+                        ev.simple_property(RRule {}, "FREQ=YEARLY")?;
+                    }
                     ev.end()?;
                 }
             } else if let Ok(month) = date_str[5..7].parse::<u32>()
